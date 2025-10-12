@@ -1,0 +1,59 @@
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: uniattend-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: uniattend78933
+      MYSQL_DATABASE: uniattend
+      MYSQL_USER: uniattend
+      MYSQL_PASSWORD: uniattend78933
+    ports:
+      - "3307:3306"   # changed host port to avoid conflicts
+    networks:
+      - uniattend-network
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-puniattend78933"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: uniattend-backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend:/app   # hot reload for backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: mysql+pymysql://uniattend:uniattend78933@uniattend-mysql:3306/uniattend
+    ports:
+      - "8000:8000"
+    networks:
+      - uniattend-network
+
+  frontend:
+    build: ./frontend
+    container_name: uniattend-frontend
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    volumes:
+      - ./frontend:/app  # hot reload for frontend
+      - /app/node_modules # prevent overwriting node_modules
+    depends_on:
+      - backend
+    ports:
+      - "5173:5173"
+    networks:
+      - uniattend-network
+
+networks:
+  uniattend-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
