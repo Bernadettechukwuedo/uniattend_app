@@ -232,7 +232,7 @@ export default {
     async fetchAllEvents() {
       try
       {
-          const eventres = await api.get(`${import.meta.env.VITE_API_BASE_URL}/events/organizer-event`, {
+          const eventres = await api.get('/events/organizer-event', {
           params: {
             search: this.searchQuery,
             limit: this.limit,
@@ -246,7 +246,7 @@ export default {
         
         
         this.total = eventres.data.total;
-        const response= await api.get(`${import.meta.env.VITE_API_BASE_URL}/registration/view-all-student-registrations`); //fetch total registered users
+        const response= await api.get('/registration/view-all-student-registrations'); //fetch total registered users
         this.totalRegisteredUsers = response.data.total;
         
       
@@ -278,7 +278,7 @@ export default {
 
     async deleteEvent(eventId) {
       try {
-        await api.delete(`${import.meta.env.VITE_API_BASE_URL}/events/delete-event/${eventId}`);
+        await api.delete(`/events/delete-event/${eventId}`);
         this.events = this.events.filter(event => event.id !== eventId);
         this.total -= 1;
         delete this.show[eventId];

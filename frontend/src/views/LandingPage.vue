@@ -17,7 +17,7 @@ import Footer from '../components/Footer.vue';
           alt="Dynamic campus event with excited students collaborating and organizing activities"
           class="w-full h-full object-cover "
         />
-        <div class="absolute inset-0 bg-gradient-to-br from-[#1E5A8A] via-black/40 to-black"></div>
+        <div class="absolute inset-0 bg-linear-to-br from-[#1E5A8A] via-black/40 to-black"></div>
       </div>
           <div class="relative z-10 text-center text-white px-4 animate-slide-up">
         <h1 class="text-4xl md:text-6xl mb-6 leading-tight">Discover & Create Amazing Campus Events</h1>
@@ -43,7 +43,7 @@ import Footer from '../components/Footer.vue';
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 justify-items-center px-4 ">
           <!--icon 1-->
-           <div class="bg-white border-1 border-gray-300 transform hover:scale-105 transition-transform duration-300 rounded-xl shadow-md w-full max-w-xl text-center">
+           <div class="bg-white border border-gray-300 transform hover:scale-105 transition-transform duration-300 rounded-xl shadow-md w-full max-w-xl text-center">
           <div class="flex justify-center mt-4 mb-4">
             <img
               src="https://res.cloudinary.com/dotzzcayo/image/upload/v1752686213/calender_l71pi8.png"
@@ -66,7 +66,7 @@ import Footer from '../components/Footer.vue';
 
           
           <!--icon 2-->
-           <div class="bg-white border-1 border-gray-300 transform hover:scale-105 transition-transform duration-300 rounded-xl shadow-md  w-full max-w-xl  text-center">
+           <div class="bg-white border border-gray-300 transform hover:scale-105 transition-transform duration-300 rounded-xl shadow-md  w-full max-w-xl  text-center">
           <div class="flex justify-center mt-4 mb-4">
             <img
               src="https://res.cloudinary.com/dotzzcayo/image/upload/v1751300165/template_hcj6wa.png"
@@ -86,7 +86,7 @@ import Footer from '../components/Footer.vue';
           </div>
 
           <!--icon 3-->
-           <div class="bg-white border-1 border-gray-300 transform hover:scale-105 transition-transform duration-300 rounded-xl shadow-md  w-full max-w-xl text-center">
+           <div class="bg-white border border-gray-300 transform hover:scale-105 transition-transform duration-300 rounded-xl shadow-md  w-full max-w-xl text-center">
           <div class="flex justify-center mt-4 mb-4">
             <img
               src="https://res.cloudinary.com/dotzzcayo/image/upload/v1752668806/security_y3eodu.png"
@@ -107,7 +107,7 @@ import Footer from '../components/Footer.vue';
           </div>
 
           <!--icon 4-->
-           <div class="bg-white border-1 border-gray-300 transform hover:scale-105 transition-transform duration-300 rounded-xl shadow-md w-full max-w-xl text-center">
+           <div class="bg-white border border-gray-300 transform hover:scale-105 transition-transform duration-300 rounded-xl shadow-md w-full max-w-xl text-center">
           <div class="flex justify-center mt-4 mb-4">
             <img
               src="https://res.cloudinary.com/dotzzcayo/image/upload/v1752668902/world_wide_wnaxgc.png"

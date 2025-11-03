@@ -58,7 +58,7 @@ export default {
                 return;
             }
             try {
-                const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, this.loginForm);
+                const response = await api.post('/auth/login', this.loginForm);
                 if (response.status === 201) {
                     this.successmessage=response.data.message;
                     const auth = useAuthStore();

@@ -37,7 +37,7 @@ export default{
             if (this.scannedCode == code) return;
             this.scannedCode = code;
             console.log('Scanned QR Code:', code);
-            const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/registration/validate-qr`, {
+            const response = await api.post('/registration/validate-qr', {
                 qr_code: code
             });
             console.log(response.data);

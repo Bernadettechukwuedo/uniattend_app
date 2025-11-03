@@ -237,7 +237,7 @@ export default {
     async fetchAllEvents() {
 
       try {
-        const eventsRes = await api.get(`${import.meta.env.VITE_API_BASE_URL}/events/get-events`, {
+        const eventsRes = await api.get('/events/get-events', {
           params: {
             search: this.searchQuery,
             limit: this.limit,
@@ -245,7 +245,7 @@ export default {
           }
         });
 
-        const registeredRes = await api.get(`${import.meta.env.VITE_API_BASE_URL}/registration/get-registrations`, {
+        const registeredRes = await api.get('/registration/get-registrations', {
 
         });
         
@@ -283,7 +283,7 @@ export default {
 
     async registerEvents(eventId) {
       try {
-        const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/registration/register-event`, {
+        const response = await api.post('/registration/register-event', {
           event_id: eventId,
           user_id: this.user.id,
         }
@@ -304,7 +304,7 @@ export default {
 
     async unregisterEvents(eventId) {
       try {
-        const response = await api.delete(`${import.meta.env.VITE_API_BASE_URL}/registration/unregister`, {
+        const response = await api.delete('/registration/unregister', {
           params: {
             event_id: eventId,
           }

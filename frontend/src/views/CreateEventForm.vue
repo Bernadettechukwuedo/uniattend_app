@@ -148,7 +148,7 @@ export default {
         for(const key in this.eventForm) {
           formData.append(key, this.eventForm[key]);
         }
-        const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/events/create-event`,formData,
+        const response = await api.post('/events/create-event',formData,
         { headers: { "Content-Type": "multipart/form-data" } }
         );
         if (response.status === 201) {

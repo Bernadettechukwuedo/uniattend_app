@@ -78,7 +78,7 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        const response = await api.patch(`${import.meta.env.VITE_API_BASE_URL}/auth/update-user`, this.editForm);
+        const response = await api.patch('/auth/update-user', this.editForm);
         if (response.status === 200) {
           this.messagee = 'Profile updated successfully!';
           this.errormessage = '';

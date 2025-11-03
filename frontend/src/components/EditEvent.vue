@@ -207,7 +207,7 @@ export default {
       }
 
       try {
-        const response = await api.patch(`${import.meta.env.VITE_API_BASE_URL}/events/update-events`,formData,
+        const response = await api.patch('/events/update-events',formData,
          { headers: { "Content-Type": "multipart/form-data" } }
       );
        

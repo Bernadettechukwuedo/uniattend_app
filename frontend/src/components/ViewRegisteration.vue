@@ -80,7 +80,7 @@ export default {
             async fetchRegistrations(){
             
         try{
-                const response = await api.get(`${import.meta.env.VITE_API_BASE_URL}/registration/view-student-registrations`,{
+                const response = await api.get('/registration/view-student-registrations',{
                      params: {
                     event_id: this.eventId.id
                 }

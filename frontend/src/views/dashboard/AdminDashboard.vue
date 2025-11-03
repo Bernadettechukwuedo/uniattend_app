@@ -322,17 +322,17 @@ export default{
     },
     async fetchDetails(){
       try{
-        const user_response = await api.get(`${import.meta.env.VITE_API_BASE_URL}/auth/get-users`)
+        const user_response = await api.get('/auth/get-users')
         this.users = user_response.data
         this.countUsers = this.users.length
 
         const activeUser = this.users.filter( user => user.status === "active")
         this.countActive =activeUser.length
       
-        const event_response = await api.get(`${import.meta.env.VITE_API_BASE_URL}/events/get-events`)
+        const event_response = await api.get('/events/get-events')
         this.countEvents = event_response.data.total
 
-        const registration_response = await api.get(`${import.meta.env.VITE_API_BASE_URL}/registration/get-registration`)
+        const registration_response = await api.get('/registration/get-registration')
         this.registrations =registration_response.data
         this.countRegistration = this.registrations.length
         
@@ -349,7 +349,7 @@ export default{
       try{
             const newStatus = userStatus === 'active' ? 'banned' : 'active';
 
-            await api.patch(`${import.meta.env.VITE_API_BASE_URL}/auth/toggle-status`,{
+            await api.patch('/auth/toggle-status',{
         id,
         status:newStatus
       });
@@ -379,13 +379,13 @@ export default{
       try{
             this.show = true
             if (role === "organizer"){
-            const response_data = await api.get(`${import.meta.env.VITE_API_BASE_URL}/events/organizer-event/${id}`)
+            const response_data = await api.get(`/events/organizer-event/${id}`)
             this.user_events =response_data.data.events
 
             }
 
             else if (role === "student"){
-              const response_data = await api.get(`${import.meta.env.VITE_API_BASE_URL}/registration/get-registrations/${id}`)
+              const response_data = await api.get(`/registration/get-registrations/${id}`)
               this.user_events = response_data.data.registrations
               }
             else{

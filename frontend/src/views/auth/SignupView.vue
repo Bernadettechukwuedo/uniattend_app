@@ -52,7 +52,7 @@ export default {
     methods: {
         async handleSubmit() {
             try {
-                const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, this.signupForm);
+                const response = await api.post('/auth/register', this.signupForm);
                 if (response.status === 201) {
                     this.successmessagee= response.data.message;
                     this.$router.push({ name: 'login' });

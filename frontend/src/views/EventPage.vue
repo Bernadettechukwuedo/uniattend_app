@@ -10,7 +10,7 @@
         alt="University building"
         class="w-full h-[500px] object-cover  shadow-lg"
       />
-      <div class="absolute inset-0 bg-gradient-to-br from-[#1E5A8A] via-black/40 to-black"></div>
+      <div class="absolute inset-0 bg-linear-to-br from-[#1E5A8A] via-black/40 to-black"></div>
     </div>
 
     <!-- Event Overview Header -->
@@ -119,7 +119,7 @@ export default {
     async fetchEvents() {
       try {
         const response = await api.get(
-          `${import.meta.env.VITE_API_BASE_URL}/events/get-events`,
+          '/events/get-events',
           {
             params: {
               search: this.searchQuery,
