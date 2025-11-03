@@ -6,7 +6,7 @@
       <div class="flex items-center space-x-2">
         <img
           src="https://res.cloudinary.com/dotzzcayo/image/upload/v1752689153/logo_a8a77z.png"
-          alt="Vue logo"
+          alt="UniAttend logo"
           class="h-12 w-16"
         />
       </div>
