@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gradient-to-br from-[#e6f0fa] via-[#f4f8fb] to-[#c5def0]">
+  <div class="bg-linear-to-br from-[#e6f0fa] via-[#f4f8fb] to-[#c5def0]">
 <NavBar />
   <div>
         <div class="bg-[#3D81B6]">
@@ -28,13 +28,13 @@
     </div>
     <div class="flex justify-center gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Total Registered Users Card -->
-      <div class="bg-white border  transform bg-gradient-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300   hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl ">
+      <div class="bg-white border  transform bg-linear-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300   hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl ">
         <h2 class="text-xl font-semibold mb-2 text-[#1E6091]">Total Users</h2>
         <div class="text-4xl font-bold text-[#1E6091] mb-1">{{ totalRegisteredUsers }}</div>
       </div>
 
       <!-- Total Events Card -->
-      <div class="bg-white border bg-gradient-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl">
+      <div class="bg-white border bg-linear-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl">
         <h2 class="text-xl font-semibold mb-2 text-[#1E6091]">Total Events</h2>
         <div class="text-4xl font-bold text-[#1E6091] mb-1">{{ total }}</div>
       </div>
@@ -138,8 +138,9 @@
 
           /> 
                   <QRCode
-            v-if="showQRCOde" 
-            @cancel="showQRCOde = false"
+            v-if="showQRCode" 
+            @cancel="showQRCode = false"
+             @success="fetchAllEvents"
 
           /> 
         
@@ -204,10 +205,11 @@ export default {
       total: 0,
       user: null,
       show: {},
+      showEdit: {},
       showRegisteredUsers: false,
       showEditModal: false,
       selectedEvent: null,
-      showQRCOde:false,
+      showQRCode:false,
       totalRegisteredUsers: 0,
     };
   },
@@ -239,13 +241,14 @@ export default {
         });
         this.events = eventres.data.events.map(event => ({
           ...event,
-          image: `${import.meta.env.VITE_API_BASE_URL}/static/images/${event.image}`
+          image: event.image
         }));
-        console.log(this.events)
+        
+        
         this.total = eventres.data.total;
         const response= await api.get(`${import.meta.env.VITE_API_BASE_URL}/registration/view-all-student-registrations`); //fetch total registered users
         this.totalRegisteredUsers = response.data.total;
-        console.log( this.totalRegisteredUsers)
+        
       
       } 
       catch (error) {
@@ -270,7 +273,7 @@ export default {
       this.show[eventId] = !this.show[eventId];
     },
     scanQR(){
-      this.showQRCOde = true;
+      this.showQRCode = true;
     },
 
     async deleteEvent(eventId) {
@@ -279,7 +282,9 @@ export default {
         this.events = this.events.filter(event => event.id !== eventId);
         this.total -= 1;
         delete this.show[eventId];
-        await this.fetchAllEvents();
+        setTimeout(() => {
+        this.fetchAllEvents();
+      }, 300);
 
       } catch (error) {
         console.error('Error deleting event:', error);
@@ -307,13 +312,16 @@ export default {
       this.events[index] = {
         ...updatedEvent,
       image: updatedEvent.image
-        ? `${import.meta.env.VITE_API_BASE_URL}/static/images/${updatedEvent.image}`
+        ? updatedEvent.image
         : this.events[index].image
       
+      
     };
-    this.showEdit[updatedEvent.id] = false;
-    
   }
+    this.showEditModal= false;
+    await this.fetchAllEvents();
+    
+  
   },
 }
  

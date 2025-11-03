@@ -1,4 +1,3 @@
-import shutil
 from fastapi import APIRouter, Depends, HTTPException, Query, Form, File, UploadFile
 from app.schemas import EventOut, PaginatedEventResponse,EventListResponse
 from sqlalchemy.orm import Session
@@ -7,8 +6,9 @@ from datetime import datetime
 from fastapi.responses import JSONResponse
 from app.models import Event, User, RoleEnum
 from app.routes.auth.auth_utils import get_current_user
-from uuid import uuid4
-import os
+from cloudinary.uploader import upload, destroy
+
+
 
 router = APIRouter(prefix="/events", tags=["Events"])
 
@@ -56,12 +56,12 @@ async def create_event(
             status_code=400, detail="Event must be scheduled in the future."
         )
     try:
-        file_ext = os.path.splitext(image.filename)[1]
-        unique_filename = f"{uuid4().hex}{file_ext}"
-        file_path = f"static/images/{unique_filename}"
         contents = await image.read()
-        with open(file_path, "wb") as f:
-            f.write(contents)
+        
+        # Upload to Cloudinary
+        upload_result = upload(contents, folder="events", resource_type="image")
+        image_url = upload_result.get("secure_url")
+
         new_event = Event(
             name=name,
             date=date,
@@ -71,7 +71,7 @@ async def create_event(
             capacity=capacity,
             created_by=current_user.id,
             description=description,
-            image=unique_filename,  # Assuming you want to save the image filename
+            image=image_url,  # Assuming you want to save the image filename
         )
         db.add(new_event)
         db.commit()
@@ -91,7 +91,7 @@ async def create_event(
                     "capacity": new_event.capacity,
                     "created_by": new_event.created_by,
                     "description": new_event.description,
-                    "image": file_path,  
+                    "image": image_url,  
                 },
             },
         )
@@ -128,11 +128,6 @@ async def get_events(
 
         total = query.count()
         events = query.order_by(Event.date.desc()).offset(offset).limit(limit).all()
-        if total == 0:
-            return JSONResponse(
-                status_code=404,
-                content={"success": False, "message": "No events found"},
-            )
         return {
             "success": True,
             "total": total,
@@ -191,20 +186,18 @@ async def update_events(
         if time is not None:
             existing_event.time = time
         if image is not None:
-            # Remove old image file (if not default)
-            if existing_event.image:
-                old_image_path = os.path.join("static/images", existing_event.image)
-                if os.path.exists(old_image_path):
-                    os.remove(old_image_path)
+            # Delete old Cloudinary image if exists
+            if existing_event.image and "res.cloudinary.com" in existing_event.image:
+                public_id = "/".join(existing_event.image.split("/")[-2:]).split(".")[0]
+                try:
+                    destroy(public_id)
+                except Exception as e:
+                    print(f"Failed to delete old image: {e}")
 
-            file_ext = os.path.splitext(image.filename)[1]
-            image_filename = f"{uuid4().hex}{file_ext}"
-            image_path = os.path.join("static/images", image_filename)
+            contents = await image.read()
+            upload_result = upload(contents, folder="events", resource_type="image")
+            existing_event.image = upload_result["secure_url"]
 
-            with open(image_path, "wb") as buffer:
-                shutil.copyfileobj(image.file, buffer)
-
-            existing_event.image = image_filename
         db.commit()
         db.refresh(existing_event)
         return JSONResponse(
@@ -228,10 +221,8 @@ async def update_events(
         db.rollback()
         return JSONResponse(
             status_code=500,
-            detail=f"An error occurred while updating the event: {str(e)}",
+            content={"success": False, "message": f"An error occurred while updating the event: {str(e)}"},
         )
-
-
 # delete events
 @router.delete("/delete-event/{event_id}", summary="Delete an event")
 async def delete_event(
@@ -241,13 +232,21 @@ async def delete_event(
 ):
     existing_event = db.query(Event).filter(Event.id == event_id).first()
     if not existing_event:
-        return JSONResponse(status_code=404, detail="Event not found.")
+        return JSONResponse(status_code=404, content={"success": False, "message": "Event not found."})
     if (
         existing_event.created_by == current_user.id
         or current_user.role == RoleEnum.admin
     ):
 
         try:
+                        # Delete image from Cloudinary if it's a Cloudinary URL
+            if existing_event.image and "res.cloudinary.com" in existing_event.image:
+                public_id = "/".join(existing_event.image.split("/")[-2:]).split(".")[0]
+                try:
+                    destroy(public_id)
+                except Exception as e:
+                    print(f"Failed to delete image from Cloudinary: {e}")
+
             db.delete(existing_event)
             db.commit()
             return JSONResponse(
@@ -257,14 +256,15 @@ async def delete_event(
         except Exception as e:
             db.rollback()
             return JSONResponse(
-                status_code=500,
-                detail=f"An error occurred while deleting the event: {str(e)}",
-            )
+            status_code=500,
+            content={"success": False, "message": f"An error occurred while deleting the event: {str(e)}"},
+)
 
     else:
         return JSONResponse(
-            status_code=403, detail="You do not have permission to delete this event."
+            status_code=403, content={"success": False, "message": "You do not have permission to delete this event."}
         )
+
 #list event based on the organizerid
 @router.get(
     "/organizer-event/{organizer_id}",
@@ -285,11 +285,6 @@ async def get_event_by_organizerid(
             )
         get_event= db.query(Event).filter(Event.created_by == organizer_id)
         events = get_event.all()
-        if not events:
-            return JSONResponse(
-                status_code=404,
-                content={"success": False, "message": "No events found"},
-            )
         total = get_event.count()
         
         return {
@@ -337,11 +332,7 @@ async def get_event_by_organizer(
 
         total = query.count()
         get_event = query.filter(Event.created_by == current_user.id).offset(offset).limit(limit).all()
-        if total == 0:
-            return JSONResponse(
-                status_code=404,
-                content={"success": False, "message": "No events found"},
-            )
+    
         return {
             "success": True,
             "total": total,

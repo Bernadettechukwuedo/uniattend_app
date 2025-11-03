@@ -59,7 +59,6 @@ export default {
             }
             try {
                 const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, this.loginForm);
-                console.log(response)
                 if (response.status === 201) {
                     this.successmessage=response.data.message;
                     const auth = useAuthStore();
@@ -68,7 +67,7 @@ export default {
                         refresh_token: response.data.refresh_token,
                         user: response.data.user
                     });
-                    console.log('Login successful:', response.data.refresh_token);
+                    
             
                     if(response.data.user.role === 'student') {
                         this.$router.push({ name: 'student-dashboard' });

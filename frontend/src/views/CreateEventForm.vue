@@ -151,8 +151,6 @@ export default {
         const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/events/create-event`,formData,
         { headers: { "Content-Type": "multipart/form-data" } }
         );
-        console.log(response.data);
-        console.log(response.status);
         if (response.status === 201) {
           this.messagee = 'Event created successfully!';
           this.errormessage = '';

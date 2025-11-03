@@ -1,5 +1,7 @@
 <template>
         <div class="fixed inset-0 z-50 flex justify-center items-center bg-black/80">
+            <div v-if="successmessage" class="text-green-500 text-center mb-4">{{ successmessage }}</div>
+            <div v-if="errormessage" class="text-red-500 text-center mb-4">{{ errormessage }}</div>
             <div class="relative max-w-md max-h-fit mx-4 p-6 bg-white rounded-lg shadow-lg" >
                                   <button
                     @click="$emit('cancel')"
@@ -26,10 +28,13 @@ export default{
     data(){
         return{
             scannedCode: null,
+            successmessage:"",
+            errormessage:""
         }
     },
     methods:{
         async onDetect(code) {
+            if (this.scannedCode == code) return;
             this.scannedCode = code;
             console.log('Scanned QR Code:', code);
             const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/registration/validate-qr`, {
@@ -37,9 +42,22 @@ export default{
             });
             console.log(response.data);
             if(response.data.success){
-                alert('Check-in successful!');
+                this.successmessage = 'Check-in successful!';
+                this.errormessage=""
+                this.$emit('success', code);
+                setTimeout(() => {
+                    
+                    this.successmessage = '';
+                    this.scannedCode = null;
+                }, 2000);
             } else {
-                alert('Invalid QR code or already checked in.');
+
+                this.errormessage ='Invalid QR code or already checked in.';
+                this.successmessage=""
+                setTimeout(() => {
+                    this.errormessage = '';
+                    this.scannedCode = null;
+                }, 2000);
             }
           }
     },

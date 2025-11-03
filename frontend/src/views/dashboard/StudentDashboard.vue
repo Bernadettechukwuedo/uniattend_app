@@ -1,7 +1,5 @@
-
-
 <template>
-  <div class="bg-gradient-to-br from-[#e6f0fa] via-[#f4f8fb] to-[#c5def0]">
+  <div class="bg-linear-to-br from-[#e6f0fa] via-[#f4f8fb] to-[#c5def0]">
 <NavBar />
   <div class="overflow-y-hidden">
 
@@ -36,10 +34,14 @@
   </div>
 </div>
 
-    <div class="flex justify-center  max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="bg-white border bg-gradient-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer w-full max-w-md md:max-w-xl text-center p-6">
-        <h1 class="text-xl font-semibold text-[#1E6091]">Total Registered Events</h1>
-        <p  class="text-3xl text-[#1E6091] mt-2">{{  totalRegisteredEvents }}</p>
+    <div class="flex flex-col md:flex-row justify-between  max-w-7xl gap-6 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="bg-white border bg-linear-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer w-full max-w-md md:max-w-xl text-center p-6">
+        <h1 class="text-xl font-semibold mb-2 text-[#1E6091]">Total Registered Events</h1>
+        <p  class="text-4xl font-bold text-[#1E6091] mb-1">{{  totalRegisteredEvents }}</p>
+      </div>
+            <div class="bg-white border bg-linear-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer w-full max-w-md md:max-w-xl text-center p-6">
+        <h1 class="text-xl font-semibold mb-2 text-[#1E6091]">Total Past Registered Events</h1>
+        <p  class="text-4xl font-bold text-[#1E6091] mb-1">{{  totalPastEvents }}</p>
       </div>
     </div>
     <!--search-->
@@ -127,7 +129,7 @@
       </div>
     </div> </div>
 
-      <div class="mb-4 flex justify-center gap-4" v-if="!(events.length === 0)">
+      <div class="mb-4 flex justify-center gap-4" v-if="!(filteredEvents.length === 0)">
       <button
         @click="prevPage"
         :disabled="offset === 0"
@@ -144,8 +146,8 @@
       </button>
     </div>
         <!-- No Results -->
-    <div v-if="events.length === 0" class="text-center mb-8 text-gray-500">
-      No events found.
+    <div v-if="filteredEvents.length === 0" class="text-center mb-8 text-gray-500">
+      No upcoming events available at the moment.
     </div>
 
     <!-- QR Code Modal -->
@@ -250,7 +252,7 @@ export default {
 
         this.events = eventsRes.data.events.map((event) => ({
           ...event,
-          image: `${import.meta.env.VITE_API_BASE_URL}/static/images/${event.image}`
+          image: event.image
         }));
         
 
@@ -274,7 +276,8 @@ export default {
 
     getQrCodePath(eventId) {
       const reg = this.registeredEvents.find((e) => e.event_id === eventId);
-      return reg ? `${import.meta.env.VITE_API_BASE_URL}/static/qrcodes/${reg.qr_code_path}` : '';
+      return reg ? reg.qr_code_path: '';
+      
       
     },
 
@@ -348,12 +351,20 @@ export default {
       this.qrCodePath = '';
     }
   },
-    computed: {
+   computed: {
     filteredEvents() {
       
-      const today = new Date();
+     const today = new Date();
      return this.events.filter(event => new Date(event.date) >= today);
-    }
+   },
+     totalPastEvents() {
+    const today = new Date();
+    return this.registeredEvents.filter(reg => {
+      // find event details from the event_id
+      const event = this.events.find(e => e.id === reg.event_id);
+      return event && new Date(event.date) < today;
+    }).length;
   }
+}
 }
 </script>

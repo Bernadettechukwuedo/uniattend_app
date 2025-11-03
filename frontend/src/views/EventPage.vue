@@ -131,7 +131,7 @@ export default {
         this.total = response.data.total
         this.events = response.data.events.map((event) => ({
           ...event,
-          image: `${import.meta.env.VITE_API_BASE_URL}/static/images/${event.image}`
+          image: event.image
 
         }))
       } catch (error) {

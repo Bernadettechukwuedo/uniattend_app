@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gradient-to-br from-[#e6f0fa] via-[#f4f8fb] to-[#c5def0]">
+  <div class="bg-linear-to-br from-[#e6f0fa] via-[#f4f8fb] to-[#c5def0]">
 
     <NavBar />
 <!-- Welcome Section -->
@@ -41,7 +41,7 @@
       
       <!-- Total Users Card -->
       <div
-        class="h-28 flex flex-col items-center justify-center bg-gradient-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer"
+        class="h-28 flex flex-col items-center justify-center bg-linear-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer"
       >
         <h2 class="font-semibold text-lg text-[#1E6091]">Total Users</h2>
         <p class="text-2xl font-bold text-[#1E6091] mt-1">{{ countUsers }}</p>
@@ -49,7 +49,7 @@
 
       <!-- Total Events Card -->
       <div
-        class="h-28 flex flex-col items-center justify-center bg-gradient-to-b from-[#F9FBFD] to-[#d5e6f3] border border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
+        class="h-28 flex flex-col items-center justify-center bg-linear-to-b from-[#F9FBFD] to-[#d5e6f3] border border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
       >
         <h2 class="font-semibold text-lg text-[#1E6091]">Total Events</h2>
         <p class="text-2xl font-bold text-[#1E6091] mt-1">{{  countEvents }}</p>
@@ -57,7 +57,7 @@
 
       <!-- Total Registrations Card -->
       <div
-        class="h-28 flex flex-col items-center justify-center bg-gradient-to-b from-[#F9FBFD] to-[#d5e6f3] border border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
+        class="h-28 flex flex-col items-center justify-center bg-linear-to-b from-[#F9FBFD] to-[#d5e6f3] border border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
       >
         <h2 class="font-semibold text-lg text-[#1E6091]">Total Registrations</h2>
         <p class="text-2xl font-bold text-[#1E6091] mt-1">{{ countRegistration }}</p>
@@ -192,7 +192,7 @@
               class="p-4 border border-gray-200 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
             >
             <img
-            :src="`${this.baseURL}/static/images/${event.image}`"
+            :src="event.image"
 
             alt="Sample Event"
             class="w-full h-40 object-cover rounded-t-xl"
@@ -294,7 +294,6 @@ export default{
       userStatus:'',
       user_events:[],
       show:false,
-      baseURL: import.meta.env.VITE_API_BASE_URL,
       errormessage: ''
       
       

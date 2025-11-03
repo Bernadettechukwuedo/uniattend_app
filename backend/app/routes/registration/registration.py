@@ -14,9 +14,10 @@ from app.schemas import (
     GetAllReg,
 )
 import qrcode
-import os
+from cloudinary.uploader import upload, destroy
 from uuid import uuid4
 from fastapi.responses import JSONResponse
+import os
 
 
 # add email technology to send qr code to the users email
@@ -59,16 +60,19 @@ async def register_event(
     try:
         qr_content = f"{current_user.id}--{event.id}--{str(uuid4())}"
         qr = qrcode.make(qr_content)
+        
+        temp_filename = f"temp_qr_{uuid4().hex}.png"
+        qr.save(temp_filename)
 
-        qr_filename = f"{current_user.id}_{event.id}_{uuid4().hex}.png"
-        qr_folder = "static/qrcodes"
-        os.makedirs(qr_folder, exist_ok=True)
-        qr_path = os.path.join(qr_folder, qr_filename)
-        qr.save(qr_path)
+        upload_result = upload(temp_filename, folder="event_qrcodes")
+        qr_url = upload_result["secure_url"]
+
+        
+        os.remove(temp_filename)
 
         event.capacity -= 1
         new_registration = Registration(
-            user_id=current_user.id, event_id=event.id, qr_code_path=qr_filename
+            user_id=current_user.id, event_id=event.id, qr_code_path=qr_url
         )
         db.add(new_registration)
         db.commit()
@@ -79,7 +83,7 @@ async def register_event(
             "message": "Registered successfully",
             "registration_id": new_registration.id,
             "qr_code_path": new_registration.qr_code_path,
-            "qr_code_url": f"/static/qrcodes/{qr_filename}",
+            "qr_code_url": qr_url,
         }
     except Exception as e:
         db.rollback()
@@ -111,10 +115,12 @@ async def unregister_event(
             raise HTTPException(
                 status_code=404, detail="You are not registered for this event"
             )
-        if registration.qr_code_path:
-            qr_path = os.path.join("static", "qrcodes", registration.qr_code_path)
-            if os.path.exists(qr_path):
-                os.remove(qr_path)
+        if registration.qr_code_path and "res.cloudinary.com" in registration.qr_code_path:
+            public_id = registration.qr_code_path.split("/")[-1].split(".")[0]
+            try:
+                destroy(public_id)
+            except Exception as e:
+                print(f"Failed to delete QR code from Cloudinary: {e}")
 
         db.delete(registration)
         event.capacity += 1
@@ -183,9 +189,6 @@ async def view_all_student_registrations(
                 status_code=403, detail="You are not authorized to view this event"
             )
         events = db.query(Event).filter(Event.created_by == current_user.id).all()
-        if not events:
-            raise HTTPException(status_code=404, detail="No events found")
-
         result = []
         total = 0
         for event in events:
@@ -213,7 +216,7 @@ async def view_all_student_registrations(
 # organizers can view students that registers for their event
 @router.get(
     "/view-student-registrations",
-    response_model=list[RegisterOut],
+    response_model=StudentEventRegistrationOut,
     summary="View student registrations",
 )
 async def view_student_registrations(
@@ -223,34 +226,37 @@ async def view_student_registrations(
 ):
     try:
         event = db.query(Event).filter(Event.id == event_id).first()
+        if not event:
+            raise HTTPException(status_code=404, detail="Event not found")
+
         if event.created_by != current_user.id:
             raise HTTPException(
                 status_code=403, detail="You are not authorized to view this event"
             )
-        registrations = (
-            db.query(Registration).filter(Registration.event_id == event_id).all()
-        )
+
+        registrations = db.query(Registration).filter(Registration.event_id == event_id).all()
         if not registrations:
-            raise HTTPException(status_code=404, detail="No registrations found")
+            return {"total": 0, "registrations": []}
 
-        result = []
-        for reg in registrations:
-            result.append(
-                RegisterOut(
-                    user_id=reg.user_id,
-                    username=reg.user.username,
-                    email=reg.user.email,
-                    registration_date=reg.registration_date.strftime("%Y-%m-%d"),
-                    checked_in=reg.checked_in,
-                )
+        result = [
+            RegisterOut(
+                user_id=reg.user_id,
+                username=reg.user.username,
+                email=reg.user.email,
+                registration_date=reg.registration_date.strftime("%Y-%m-%d"),
+                checked_in=reg.checked_in,
             )
+            for reg in registrations
+        ]
 
-        return result
+        return {"total": len(result), "registrations": result}
 
     except Exception as e:
         raise HTTPException(
-            status_code=500, detail=f"Failed to view student registrations:{str(e)}"
+            status_code=500,
+            detail=f"Failed to view student registrations: {str(e)}"
         )
+
 #get users registeration using user id
 @router.get(
     "/get-registrations/{user_id}",

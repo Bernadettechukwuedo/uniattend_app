@@ -87,7 +87,7 @@ export default {
             }
                 );
                 this.registrations = response.data;
-                console.log(response.data)
+                
             }
             catch(error){
                 console.log(error.message)
