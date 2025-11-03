@@ -3,6 +3,8 @@ import BackToTop from './components/BackToTop.vue';
 </script>
 
 <template>
-  <router-view />
-  <BackToTop />
+  <div>
+    <router-view />
+    <BackToTop />
+  </div>
 </template>
