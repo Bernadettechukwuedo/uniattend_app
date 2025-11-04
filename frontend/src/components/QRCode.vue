@@ -58,7 +58,7 @@ export default{
 
     // Called when a QR code is detected
     async onDetect(detectedCodes) {
-      const code = detectedCodes[0]?.rawValue;
+      const code = detectedCodes[0]?.rawValue.toString();
       console.log("Detected Codes:", detectedCodes);
       if (!code || this.scannedCode === code) return; // avoid duplicate scans
       this.scannedCode = code;
