@@ -86,7 +86,8 @@ export default {
                 }
             }
                 );
-                this.registrations = response.data;
+                this.registrations = response.data.registrations;
+                
                 
             }
             catch(error){
