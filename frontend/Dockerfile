@@ -6,12 +6,12 @@ RUN npm install
 
 COPY . .
 
-# Inject Render environment variable at build time
+# Pass env variable at build time
 ARG VITE_API_BASE_URL
-ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 
 RUN echo "Building frontend with VITE_API_BASE_URL=$VITE_API_BASE_URL"
-RUN npm run build
+RUN VITE_API_BASE_URL=$VITE_API_BASE_URL npm run build
 
 FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
