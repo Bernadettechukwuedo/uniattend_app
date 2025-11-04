@@ -11,7 +11,14 @@
                 </button>
                 <h1>Scanned {{ scannedCode }}</h1>
 
-                <qrcode-stream @decode="onDetect" ></qrcode-stream>
+                      <qrcode-stream
+                        :constraints="selectedConstraints"
+                        :track="trackFunctionSelected.value"
+                        :formats="selectedBarcodeFormats"
+                        @error="onError"
+                        @detect="onDetect"
+                        @camera-on="onCameraReady"
+                    />
             
                 </div>
             
@@ -29,38 +36,69 @@ export default{
         return{
             scannedCode: null,
             successmessage:"",
-            errormessage:""
+            errormessage:"",
+            constraints : { facingMode: 'environment' }
         }
     },
-    methods:{
-        async onDetect(code) {
-            if (this.scannedCode == code) return;
-            this.scannedCode = code;
-            console.log('Scanned QR Code:', code);
-            const response = await api.post('/registration/validate-qr', {
-                qr_code: code
-            });
-            console.log(response.data);
-            if(response.data.success){
-                this.successmessage = 'Check-in successful!';
-                this.errormessage=""
-                this.$emit('success', code);
-                setTimeout(() => {
-                    
-                    this.successmessage = '';
-                    this.scannedCode = null;
-                }, 2000);
-            } else {
-
-                this.errormessage ='Invalid QR code or already checked in.';
-                this.successmessage=""
-                setTimeout(() => {
-                    this.errormessage = '';
-                    this.scannedCode = null;
-                }, 2000);
-            }
-          }
+   methods: {
+    // Draw red border around detected QR
+    paintOutline(detectedCodes, ctx) {
+      for (const detectedCode of detectedCodes) {
+        const [firstPoint, ...otherPoints] = detectedCode.cornerPoints;
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(firstPoint.x, firstPoint.y);
+        for (const { x, y } of otherPoints) {
+          ctx.lineTo(x, y);
+        }
+        ctx.lineTo(firstPoint.x, firstPoint.y);
+        ctx.closePath();
+        ctx.stroke();
+      }
     },
+
+    // Called when a QR code is detected
+    async onDetect(code) {
+      if (this.scannedCode === code) return; // avoid duplicate scans
+      this.scannedCode = code;
+      console.log("Scanned QR Code:", code);
+
+      try {
+        const response = await api.post("/registration/validate-qr", {
+          qr_code: code,
+        });
+
+        if (response.data.success) {
+          this.successmessage = "Check-in successful!";
+          this.errormessage = "";
+          this.$emit("success", code);
+        } else {
+          this.errormessage = " Invalid or already checked in.";
+          this.successmessage = "";
+        }
+      } catch (error) {
+        console.error(error);
+        this.errormessage = "Error validating QR code.";
+        this.successmessage = "";
+      }
+
+      setTimeout(() => {
+        this.successmessage = "";
+        this.errormessage = "";
+        this.scannedCode = null;
+      }, 2000);
+    },
+
+    onInit(promise) {
+      promise
+        .then(() => console.log("Camera initialized successfully"))
+        .catch((error) => {
+          console.error("Camera init error:", error);
+          this.errormessage = "Unable to access camera. Please allow permissions.";
+        });
+    },
+  },
     mounted(){
     document.body.classList.add("overflow-hidden")
 },
