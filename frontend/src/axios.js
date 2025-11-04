@@ -18,7 +18,7 @@ api.interceptors.response.use(
     response => response,
     async error => {
         const originalRequest = error.config;
-        
+
 
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
@@ -26,7 +26,7 @@ api.interceptors.response.use(
             try {
                 const authStore = useAuthStore();
                 const refreshToken = localStorage.getItem('refresh_token');
-                
+
                 console.log("Refreshing token with:", { refresh_token: refreshToken });
                 console.log('Attempting to refresh token with:', refreshToken);
 
@@ -44,7 +44,7 @@ api.interceptors.response.use(
                 originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
                 return api(originalRequest);
             } catch (refreshError) {
-                 const authStore = useAuthStore();
+                const authStore = useAuthStore();
                 authStore.logout();
                 window.location.href = '/';
                 return Promise.reject(refreshError);
