@@ -11,7 +11,7 @@
                 </button>
                 <h1>Scanned {{ scannedCode }}</h1>
 
-                <qrcode-stream @decode="onDetect"></qrcode-stream>
+                <qrcode-stream @decode="onDetect" ></qrcode-stream>
             
                 </div>
             

@@ -59,7 +59,6 @@ export default {
             }
             try {
                 const response = await api.post('/auth/login', this.loginForm);
-                console.log(response.data)
                 if (response.status === 201) {
                     this.successmessage=response.data.message;
                     const auth = useAuthStore();
