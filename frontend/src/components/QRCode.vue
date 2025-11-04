@@ -1,7 +1,6 @@
 <template>
         <div class="fixed inset-0 z-50 flex justify-center items-center bg-black/80">
-            <div v-if="successmessage" class="text-green-500 text-center mb-4">{{ successmessage }}</div>
-            <div v-if="errormessage" class="text-red-500 text-center mb-4">{{ errormessage }}</div>
+
             <div class="relative max-w-md max-h-fit mx-4 p-6 bg-white rounded-lg shadow-lg" >
                                   <button
                     @click="$emit('cancel')"
@@ -9,6 +8,8 @@
                 >
                     ✕
                 </button>
+                <div v-if="successmessage" class="text-green-500 text-center mb-4">{{ successmessage }}</div>
+                <div v-if="errormessage" class="text-red-500 text-center mb-4">{{ errormessage }}</div>
                 <h1>Scanned {{ scannedCode }}</h1>
                     <qrcode-stream
                         :constraints="constraints"
@@ -78,7 +79,8 @@ export default{
         }
       } catch (error) {
         console.error(error);
-        this.errormessage = "Error validating QR code.";
+        
+        this.errormessage = error.response?.data?.detail || "Error validating QR code.";
         this.successmessage = "";
       }
 
