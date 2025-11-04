@@ -349,10 +349,6 @@ async def get_registrations(
             status_code=500, detail=f"Failed to view registrations:{str(e)}"
         )
 
-
-
-
-# checking qr code
 @router.post("/validate-qr")
 async def validate_qr(
     qr_code: QRCheckIn,
@@ -399,3 +395,7 @@ async def validate_qr(
         "attendee_id": registration.user_id,
         "event_id": registration.event_id,
     }
+
+
+
+# checking qr code

@@ -65,7 +65,7 @@ export default{
 
       try {
         const response = await api.post("/registration/validate-qr", {
-          qr_code: this.scannedCode,
+          qr_data: this.scannedCode,
         });
 
         if (response.data.success) {
