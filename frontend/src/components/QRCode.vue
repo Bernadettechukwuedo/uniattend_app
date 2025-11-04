@@ -10,16 +10,13 @@
                     ✕
                 </button>
                 <h1>Scanned {{ scannedCode }}</h1>
-
-                      <qrcode-stream
-                        :constraints="selectedConstraints"
-                        :track="trackFunctionSelected.value"
-                        :formats="selectedBarcodeFormats"
-                        @error="onError"
+                    <qrcode-stream
+                        :constraints="constraints"
+                        :track="paintOutline"
                         @detect="onDetect"
-                        @camera-on="onCameraReady"
+                        @init="onInit"
                     />
-            
+                            
                 </div>
             
         </div>
