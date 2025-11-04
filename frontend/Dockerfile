@@ -1,15 +1,20 @@
-FROM node:20-alpine AS build
+# ---- Build stage ----
+FROM node:18-alpine AS build
+
+# 👇 Declare the argument so Render can inject it
+ARG VITE_API_BASE_URL
+
+# 👇 Make it available as an environment variable inside the container
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+
 WORKDIR /app
+
 COPY package*.json ./
 RUN npm install
+
 COPY . .
-RUN echo "VITE_API_BASE_URL is $VITE_API_BASE_URL"
-ARG VITE_API_BASE_URL
-ENV VITE_API_BASE_URL=${VITE_API_BASE_URL}
+
+# 👇 Debug line — make sure this prints your actual backend URL during Render build
+RUN echo "Building frontend with VITE_API_BASE_URL=$VITE_API_BASE_URL"
 
 RUN npm run build
-
-FROM nginx:alpine
-COPY --from=build /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
