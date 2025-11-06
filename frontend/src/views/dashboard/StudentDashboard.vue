@@ -70,7 +70,7 @@
     
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 ">
       <div
-        v-for="event in filteredEvents"
+        v-for="event in events"
         :key="event.id"
         class="bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1 max-h-fit"
       ><div></div>
@@ -129,7 +129,7 @@
       </div>
     </div> </div>
 
-      <div class="mb-4 flex justify-center gap-4" v-if="!(filteredEvents.length === 0)">
+      <div class="mb-4 flex justify-center gap-4" v-if="!(events.length === 0)">
       <button
         @click="prevPage"
         :disabled="offset === 0"
