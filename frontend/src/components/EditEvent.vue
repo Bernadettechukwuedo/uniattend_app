@@ -5,7 +5,7 @@
         @click="$emit('cancel')"
         class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
       >
-        ✕
+         <Icon icon="mdi:cancel-bold" width="24" height="24" />
       </button>
 
       <h2 class="text-2xl font-bold text-center mb-6">Edit Event</h2>
@@ -134,11 +134,23 @@
           />
         </label>
 
-        <button
-          class="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700" id="button"
-        >
-          Update
-        </button>
+            <!-- Submit button with loading state -->
+      <button type="submit"
+        :disabled="loading"
+        class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-[#1a4c7a] focus:outline-none focus:ring-offset-2focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+        
+        <span v-if="!loading">Update</span>
+        <span v-else class="flex items-center  justify-center gap-2">
+          <svg class="animate-spin h-5 w-5 text-white " xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+            </path>
+          </svg>
+          Updating...
+        </span>
+      </button>
       </form>
     </div>
   </div>
@@ -148,13 +160,18 @@
 <script>
 import { ref, watch} from 'vue'; 
 import api from '../axios';
+import { Icon } from '@iconify/vue';
 export default {
+  components: {
+    Icon
+  },
   props: {
     event: {
       type: Object,
       required: true
     }
   },
+
   mounted() {
    document.body.classList.add('overflow-hidden');
   },
@@ -177,6 +194,7 @@ export default {
     const errormessage = ref('');
     const messagee = ref('');
     const addextraseats = ref(0);
+    const loading = ref(false);
 
     watch(() => props.event, (newData) => {
       if (newData) {
@@ -190,6 +208,7 @@ export default {
     };
 
     const handleUpdate = async () => {
+      loading.value = true;
       errormessage.value = '';
       messagee.value = '';
       
@@ -220,6 +239,9 @@ export default {
       } catch (error) {
         errormessage.value = error.message;
       }
+      finally {
+        loading.value = false;
+      }
     };
 
     return {
@@ -228,7 +250,8 @@ export default {
       addextraseats, 
       messagee,
       handleFileChange,
-      handleUpdate
+      handleUpdate,
+      loading
     };
   }
 };

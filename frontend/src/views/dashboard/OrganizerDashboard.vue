@@ -4,38 +4,38 @@
   <div>
         <div class="bg-[#3D81B6]">
   <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-8 py-4">
-    <div class="flex flex-col md:flex-row justify-between items-center md:items-start mb-8 gap-6 mt-4">
-      <div>      
+    <div class="flex flex-row justify-between items-center md:items-start mb-8 gap-6 mt-4">
+      <div class="text-left">      
       <h1 class=" text-2xl md:text-3xl font-bold text-white">Welcome, {{ user?.username }}!</h1>
-      <p class="text-white mt-2">{{  user?.email }}</p>
+      <p class="text-white mt-1 truncate">{{  user?.email }}</p>
       </div>
       <div class="flex items-center gap-4 ml-4 ">
         <button @click="scanQR()" class="  hover:bg-[#153958]  text-[#1A4C7A] p-2 rounded-md flex items-center gap-2 bg-white hover:text-white transition">
-          <img src="https://res.cloudinary.com/dotzzcayo/image/upload/v1756554037/qr_bt4tlr.png" alt="qr code" class="w-5 h-5 inline-block">
+          <Icon icon="material-symbols:qr-code-scanner" width="24" height="24" />
           
           <span  class="hidden md:inline">QR Scanner</span></button>
      
         <router-link :to="{name:'edit-profile'}" class="  bg-white p-2 rounded-md flex items-center gap-2 hover:bg-[#1A4C7A] hover:text-white transition">
-          <img src="https://res.cloudinary.com/dotzzcayo/image/upload/v1752843306/edit_wbbo0b.png" alt="edit" class="w-6 h-6 rounded-xl inline-block">
+          <Icon icon="material-symbols:edit-square-outline" width="24" height="24" />
           
           <span  class="hidden md:inline">Edit Profile</span></router-link>
 
         <router-link :to="{name:'create-event'}" class="  hover:bg-[#153958]  text-white p-2 rounded-md flex items-center gap-2 bg-[#1A4C7A] hover:text-white transition">
-          <img src="https://res.cloudinary.com/dotzzcayo/image/upload/v1751300079/add_smvptr.png" alt="edit" class="w-5 h-5 rounded-xl inline-block">
+          <Icon icon="mdi:file-plus-outline" width="24" height="24" />
           
           <span  class="hidden md:inline">Create Event</span></router-link>
       </div></div></div>
     </div>
-    <div class="flex justify-center gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Total Registered Users Card -->
-      <div class="bg-white border  transform bg-linear-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300   hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl ">
-        <h2 class="text-xl font-semibold mb-2 text-[#1E6091]">Total Users</h2>
+      <div class="bg-white border border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300   hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl ">
+        <h2 class="text-md md:text-xl font-semibold mb-2 text-[#1E6091]">Total Users</h2>
         <div class="text-4xl font-bold text-[#1E6091] mb-1">{{ totalRegisteredUsers }}</div>
       </div>
 
       <!-- Total Events Card -->
-      <div class="bg-white border bg-linear-to-b from-[#F9FBFD] to-[#d5e6f3] border-[#E0E6ED] rounded-2xl shadow-md hover:shadow-xl transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl">
-        <h2 class="text-xl font-semibold mb-2 text-[#1E6091]">Total Events</h2>
+      <div class="bg-white border  border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl">
+        <h2 class=" text-md md:text-xl font-semibold mb-2 text-[#1E6091]">Total Events</h2>
         <div class="text-4xl font-bold text-[#1E6091] mb-1">{{ total }}</div>
       </div>
     </div>
@@ -65,45 +65,48 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <h2 class="text-xl font-semibold mb-6">My Events</h2>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         
         <!-- Event Card -->
-        <div v-for="event in events" :key="event.id" class="bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1 max-h-fit">
+        <div v-for="event in events" :key="event.id" class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition transform hover:-translate-y-1 ">
           <!-- Event Image -->
           <img
             :src=event.image
             alt="Sample Event"
-            class="w-full h-48 object-cover rounded-t-xl"
+            class="w-full h-44 object-cover rounded-t-xl"
           />
 
           <!-- Event Content -->
-          <div class="p-6">
+          <div class="p-5 space-y-3">
             <h2 class="text-lg font-semibold">{{ event.name }}</h2>
-            <p class="text-sm text-gray-600 mt-2 h-18">
+            <p class="text-sm text-gray-600 mt-2 h-20">
               {{ event.description}}
             </p>
 
             <!-- Date & Location -->
-            <p class="mt-4 text-sm text-gray-500">📅 {{ event.date }} at {{ event.time }}</p>
-            <p class="mt-1 text-sm text-gray-500">📍 {{ event.location }}</p>
+            <p class="mt-4 text-sm text-gray-500 flex items-center gap-1"><Icon icon="material-symbols:calendar-clock-rounded" width="24" height="24" class="text-blue-400" /> {{ event.date }} at {{ event.time }}</p>
+            <p class="mt-2 text-sm text-gray-500 flex items-center gap-1 "><Icon icon="material-symbols:location-on" width="24" height="24" class="text-red-400" /> {{ event.location }}</p>
  
             <!-- Capacity & Organizer -->
             <div class="flex justify-between mt-3">
-              <p class="text-sm text-gray-600">👥 Available Slots: {{  event.capacity }}</p>
+                          <p class="text-sm text-gray-600 flex items-center gap-1">
+                  <Icon icon="mdi:account-group-outline" width="20" height="20 " class="text-blue-400" />Available Slots:
+                  {{ event.capacity }}
+                </p>
               <p class="text-sm text-gray-600">by <span class="capitalize">{{ event.organizer }}</span></p>
             </div>
 
             <!-- Action Buttons -->
             <div class="flex justify-between items-center mt-4">
               <button  @click="openEdit(event)"
-                class=" w-[220px] flex justify-center items-center gap-2 px-3 py-1 rounded-md border border-gray-300 bg-white hover:bg-gray-200 text-[#1A4C7A] transition text-sm ">
-                <img src="https://res.cloudinary.com/dotzzcayo/image/upload/e_background_removal/f_png/v1752843306/edit_wbbo0b.png" alt="Edit" class="w-5 h-5 ">
+                class=" w-[220px] flex justify-center items-center gap-1 px-3 py-1 rounded-md border border-gray-300 bg-white hover:bg-gray-200 text-[#1A4C7A] transition text-sm ">
+                <Icon icon="material-symbols:edit-square-outline" width="20" height="20" />
                 <span>Edit</span>
             </button>
 
               <button @click="toggleConfirm(event.id)"
-                class="flex justify-center items-center gap-2 px-3 py-1 rounded-md border border-gray-300 bg-white hover:bg-gray-200 text-red-600 transition text-sm w-[100px]">
-                <img src="https://res.cloudinary.com/dotzzcayo/image/upload/e_background_removal/f_png/v1755009971/red_delete_mw5ruu.png" alt="Delete" class="w-5 h-5">
+                class="flex justify-center items-center gap-1 px-3 py-1 rounded-md border border-gray-300 bg-white hover:bg-red-600 hover:text-white text-red-600 transition text-sm w-[100px]">
+                <Icon icon="mdi:delete-forever-outline" width="24" height="24" />
                 <span>Delete</span>
             </button>
 
@@ -156,14 +159,14 @@
       <button
         @click="prevPage"
         :disabled="offset === 0"
-        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50"
+        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Previous
       </button>
       <button
         @click="nextPage"
-        :disabled="events.length < limit"
-        class="px-4 py-2 bg-[#1E5A8A] text-white rounded hover:bg-[#16456b] disabled:opacity-50"
+        :disabled="offset + limit >= events.length"
+        class="px-4 py-2 bg-[#1E5A8A] text-white rounded hover:bg-[#16456b] disabled:opacity-50 disabled:cursor-not-allowed"
       >
         Next
       </button>
@@ -187,6 +190,7 @@ import { storeToRefs } from 'pinia';
 import api from '../../axios'; 
 import ViewRegisteration from '../../components/ViewRegisteration.vue';
 import QRCode from '../../components/QRCode.vue';
+import { Icon } from '@iconify/vue';
 export default {
   name: 'OrganizerDashboard',
   components: {
@@ -194,7 +198,8 @@ export default {
     Footer,
     EditEvent,
     ViewRegisteration,
-    QRCode
+    QRCode,
+    Icon
   },
   data() {
     return {

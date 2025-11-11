@@ -1,13 +1,13 @@
 <template>
-  <nav class="bg-[#FBFCFC] p-2 shadow-md ">
-    <div class="flex items-center justify-between">
+  <nav class="bg-gray-300 h-20 shadow-md flex items-center">
+    <div class="flex items-center justify-between max-w-7xl mx-auto w-full px-4">
       
       <!-- Left: Logo -->
       <div class="flex items-center space-x-2">
         <img
-          src="https://res.cloudinary.com/dotzzcayo/image/upload/v1752689153/logo_a8a77z.png"
+          src="https://res.cloudinary.com/dotzzcayo/image/upload/v1762772780/MIXED_im8dd4.svg"
           alt="UniAttend logo"
-          class="h-12 w-16"
+          class="h-6 w-auto object-contain"
         />
       </div>
 
@@ -30,8 +30,8 @@
         <button @click.prevent="handleLogout" class=" text-white bg-red-600 p-3 rounded-md hover:bg-red-900">Logout</button>
       </template>
       <template v-else>
-        <router-link :to="{name:'login'}" class=" text-white bg-[#1e5a8a] p-3 rounded-md hover:bg-[#1a4c7a]">Login</router-link>
-        <router-link :to="{name:'signup'}" class="text-white bg-[#1e5a8a] p-3 rounded-md hover:bg-[#1a4c7a] ">Sign Up</router-link>
+        <router-link :to="{name:'login'}" class=" bg-white px-4 py-2 rounded-md font-semibold hover:bg-[#1a4c7a] text-black hover:text-white">Login</router-link>
+        <router-link :to="{name:'signup'}" class="text-white bg-blue-600 px-4 py-2 rounded-md hover:bg-[#1a4c7a] ">Sign Up</router-link>
       </template>
       </div>
 

@@ -6,7 +6,7 @@
                     @click="$emit('cancel')"
                     class="absolute top-3 right-3 text-gray-500 hover:text-gray-700"
                 >
-                    ✕
+                     <Icon icon="mdi:cancel-bold" width="24" height="24" />
                 </button>
                 <div v-if="successmessage" class="text-green-500 text-center mb-4">{{ successmessage }}</div>
                 <div v-if="errormessage" class="text-red-500 text-center mb-4">{{ errormessage }}</div>
@@ -25,10 +25,12 @@
 
 <script>
 import api from '../axios';
-import { QrcodeStream} from 'vue-qrcode-reader'
+import { QrcodeStream} from 'vue-qrcode-reader';
+import { Icon } from '@iconify/vue';
 export default{
     components: {
         QrcodeStream,
+        Icon
     },
     data(){
         return{

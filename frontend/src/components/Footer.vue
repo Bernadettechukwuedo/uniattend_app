@@ -4,7 +4,7 @@
       
       <!-- Logo and Description -->
       <div >
-        <img src="https://res.cloudinary.com/dotzzcayo/image/upload/v1752689153/logo_a8a77z.png" alt="Campus Calendar Logo" class="h-12 w-auto mb-4" />
+        <img src="https://res.cloudinary.com/dotzzcayo/image/upload/v1762772780/MIXED_im8dd4.svg" alt="UniAttend Logo"  class="h-10 w-auto mb-4" />
         <p class="text-sm text-gray-300 mb-4">
           Making campus life more vibrant by helping students explore events easily and giving organisers a simple way to connect with them.
         </p>

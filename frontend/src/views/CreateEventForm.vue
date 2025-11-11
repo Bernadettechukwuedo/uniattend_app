@@ -49,7 +49,7 @@
 
       <label for="location" class="block text-sm font-medium text-gray-700 mt-4">Location</label>
       <input
-        type="tel"
+        type="text"
         v-model="eventForm.location"
         id="location"
         name="location"
@@ -85,12 +85,24 @@
         required
         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
       />
-
-      <button
-        class="mt-6 w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-[#1a4c7a] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-      >
-        Save
+            <!-- Submit button with loading state -->
+      <button type="submit"
+        :disabled="loading"
+        class="mt-6 w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-[#1a4c7a] focus:outline-none focus:ring-offset-2focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+        
+        <span v-if="!loading">Save</span>
+        <span v-else class="flex items-center justify-center gap-2">
+          <svg class="animate-spin h-5 w-5 text-white " xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z">
+            </path>
+          </svg>
+          Saving...
+        </span>
       </button>
+      
     </form>
   </div>
 </template>
@@ -121,6 +133,7 @@ export default {
       },
       errormessage: '',
       messagee: '',
+      loading: false,
     };
   },
     mounted() {
@@ -138,6 +151,7 @@ export default {
   },
     async handleSubmit() {
       try {
+        this.loading = true;
         this.messagee = '';
         this.errormessage = '';
         if(this.eventForm.capacity <= 0) {
@@ -163,6 +177,9 @@ export default {
         }
       } catch (error) {
         this.errormessage = error.response?.data?.detail || 'An error occurred while creating an event.';
+      }
+      finally {
+        this.loading = false;
       }
     },
   },
