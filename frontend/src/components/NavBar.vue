@@ -30,8 +30,8 @@
         <button @click.prevent="handleLogout" class=" text-white bg-red-600 p-3 rounded-md hover:bg-red-900">Logout</button>
       </template>
       <template v-else>
-        <router-link :to="{name:'login'}" class=" bg-white px-4 py-2 rounded-md font-semibold hover:bg-[#1a4c7a] text-black hover:text-white">Login</router-link>
-        <router-link :to="{name:'signup'}" class="text-white bg-blue-600 px-4 py-2 rounded-md hover:bg-[#1a4c7a] ">Sign Up</router-link>
+        <router-link :to="{name:'login'}" class=" bg-white px-2 md:px-4 py-2 rounded-md font-semibold hover:bg-[#1a4c7a] text-black hover:text-white">Login</router-link>
+        <router-link :to="{name:'signup'}" class="text-white bg-blue-600 px-2 md:px-4 py-2 rounded-md hover:bg-[#1a4c7a] ">Sign Up</router-link>
       </template>
       </div>
 
