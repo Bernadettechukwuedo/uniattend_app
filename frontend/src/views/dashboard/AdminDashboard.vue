@@ -83,7 +83,7 @@
     <div v-if="!this.open" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="border border-[#E9EBEF] p-6 rounded-xl bg-white shadow-md">
         <h1 class="font-semibold">All Users</h1>
-        <p>Manage user accounts, view their details, and monitor their activity</p>
+        <p>Manage user accounts, view their details, and monitor their activity.</p>
         <p
           v-if="errormessage"
           class="mt-3 px-3 py-2 rounded-md text-sm font-medium text-white bg-red-600"
