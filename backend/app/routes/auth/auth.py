@@ -24,7 +24,7 @@ from app.models import User, RoleEnum, Status
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
-
+#create user
 @router.post("/register")
 async def register_user(user: UserCreate, db: Session = Depends(get_db)):
     try:

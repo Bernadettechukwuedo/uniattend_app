@@ -3,7 +3,7 @@
   <button
     v-show="show"
     @click="scrollToTop"
-    class="fixed bottom-6 right-6 bg-[#1E5A8A] text-white p-3 rounded-full w-[60px] shadow-md hover:bg-[#1a4c7a] transition duration-300"
+    class="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full w-[60px] shadow-md hover:bg-[#1a4c7a] transition duration-300"
   >
     ↑
   </button>

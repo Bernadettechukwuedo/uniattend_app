@@ -41,7 +41,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Total Users Card -->
           <div
-            class="h-28 flex flex-col items-center justify-center border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
+            class="h-28 flex flex-col items-center justify-center bg-white border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
           >
             <h2 class="font-semibold text-md md:text-xl text-[#1E6091]">Total Users</h2>
             <p class="text-2xl font-bold text-[#1E6091] mt-1">{{ countUsers }}</p>
@@ -49,7 +49,7 @@
 
           <!-- Total Events Card -->
           <div
-            class="h-28 flex flex-col items-center justify-center border border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
+            class="h-28 flex flex-col items-center justify-center border bg-white border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
           >
             <h2 class="font-semibold text-md md:text-xl text-[#1E6091]">Total Events</h2>
             <p class="text-2xl font-bold text-[#1E6091] mt-1">{{ countEvents }}</p>
@@ -57,7 +57,7 @@
 
           <!-- Total Registrations Card -->
           <div
-            class="h-28 flex flex-col items-center justify-center border border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
+            class="h-28 flex flex-col items-center justify-center border bg-white border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
           >
             <h2 class="font-semibold text-md md:text-xl text-[#1E6091]">Total Registrations</h2>
             <p class="text-2xl font-bold text-[#1E6091] mt-1">{{ countRegistration }}</p>
