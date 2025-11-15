@@ -359,6 +359,7 @@ async def validate_qr(
         qr_data = qr_code.qr_data
         user_id, event_id, _ = qr_data.split("--")
         user_id = int(user_id)
+        
         event_id = int(event_id)
     except ValueError:
         raise HTTPException(status_code=400, detail="Invalid QR format")
