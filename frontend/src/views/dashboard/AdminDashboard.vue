@@ -79,7 +79,7 @@
         </div>
       </div>
     </div>
-    <!--table-->
+    <!-- user table-->
     <div v-if="!this.open" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="border border-[#E9EBEF] p-6 rounded-xl bg-white shadow-md">
         <h1 class="font-semibold">All Users</h1>
