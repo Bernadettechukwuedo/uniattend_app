@@ -6,8 +6,8 @@
     <!-- Hero Image -->
     <div class="relative">
       <img
-        src="https://res.cloudinary.com/dotzzcayo/image/upload/v1752768472/Roorkee_vjqdfj.jpg"
-        alt="University building"
+        src="https://res.cloudinary.com/dotzzcayo/image/upload/v1752767824/uni_gk8ii9.jpg"
+        alt="Unn university library"
         class="w-full h-[500px] object-cover shadow-lg"
       />
       <div class="absolute inset-0 bg-linear-to-br from-[#1E5A8A] via-black/40 to-black"></div>
@@ -73,7 +73,7 @@
               <h2 class="text-lg font-semibold">
                 {{ event.name }}
               </h2>
-              <p class="text-sm text-gray-600 h-20">
+              <p class="text-sm text-gray-600 h-25">
                 {{ event.description }}
               </p>
 

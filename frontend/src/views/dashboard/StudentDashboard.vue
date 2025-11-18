@@ -74,7 +74,7 @@
             <img :src="event.image" alt="Event Image" class="w-full h-44 object-cover rounded-t-xl" />
             <div class="p-5 space-y-3">
               <h2 class="text-lg font-semibold">{{ event.name }}</h2>
-              <p class="text-sm text-gray-600 h-20 overflow-hidden">{{ event.description }}</p>
+              <p class="text-sm text-gray-600 h-25 ">{{ event.description }}</p>
 
               <p class="mt-4 text-sm text-gray-500 flex items-center gap-1">
                 <Icon icon="material-symbols:calendar-clock-rounded" width="24" height="24" class="text-blue-400" />

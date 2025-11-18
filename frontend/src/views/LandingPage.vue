@@ -98,7 +98,7 @@ const features2 = [
     <div id="home" class="relative h-screen flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1559223607-a43c990c692c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+          src="https://res.cloudinary.com/dotzzcayo/image/upload/v1763491206/hero_section_mbrhnp.jpg"
           alt="Dynamic campus event with excited students collaborating and organizing activities"
           class="w-full h-full object-cover"
         />

@@ -330,9 +330,9 @@ async def get_event_by_organizer(
                 | Event.description.ilike(f"%{search}%")
             )
 
-        total = query.count()
-        get_event = query.filter(Event.created_by == current_user.id).offset(offset).limit(limit).all()
     
+        get_event = query.filter(Event.created_by == current_user.id).offset(offset).limit(limit).all()
+        total= len(get_event)
         return {
             "success": True,
             "total": total,

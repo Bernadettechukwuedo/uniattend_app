@@ -1,193 +1,293 @@
 <template>
   <div class="bg-linear-to-br from-[#e6f0fa] via-[#f4f8fb] to-[#c5def0]">
-<NavBar />
-  <div>
-        <div class="bg-[#3D81B6]">
-  <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-8 py-4">
-    <div class="flex flex-row justify-between items-center md:items-start mb-8 gap-6 mt-4">
-      <div class="text-left">      
-      <h1 class=" text-2xl md:text-3xl font-bold text-white">Welcome, {{ user?.username }}!</h1>
-      <p class="text-white mt-1 truncate">{{  user?.email }}</p>
-      </div>
-      <div class="flex items-center gap-4 ml-4 ">
-        <button @click="scanQR()" class="  hover:bg-[#153958]  text-[#1A4C7A] p-2 rounded-md flex items-center gap-2 bg-white hover:text-white transition">
-          <Icon icon="material-symbols:qr-code-scanner" width="24" height="24" />
-          
-          <span  class="hidden md:inline">QR Scanner</span></button>
-     
-        <router-link :to="{name:'edit-profile'}" class="  bg-white p-2 rounded-md flex items-center gap-2 hover:bg-[#1A4C7A] hover:text-white transition">
-          <Icon icon="material-symbols:edit-square-outline" width="24" height="24" />
-          
-          <span  class="hidden md:inline">Edit Profile</span></router-link>
+    <NavBar />
+    <div>
+      <div class="bg-[#3D81B6]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-8 py-4">
+          <div class="flex flex-row justify-between items-center md:items-start mb-8 gap-6 mt-4">
+            <div class="text-left">
+              <h1 class="text-2xl md:text-3xl font-bold text-white">
+                Welcome, {{ user?.username }}!
+              </h1>
+              <p class="text-white mt-1 truncate">{{ user?.email }}</p>
+            </div>
+            <div class="flex items-center gap-4 ml-4">
+              <button
+                @click="scanQR()"
+                class="hover:bg-[#153958] text-[#1A4C7A] p-2 rounded-md flex items-center gap-2 bg-white hover:text-white transition"
+              >
+                <Icon icon="material-symbols:qr-code-scanner" width="24" height="24" />
 
-        <router-link :to="{name:'create-event'}" class="  hover:bg-[#153958]  text-white p-2 rounded-md flex items-center gap-2 bg-[#1A4C7A] hover:text-white transition">
-          <Icon icon="mdi:file-plus-outline" width="24" height="24" />
-          
-          <span  class="hidden md:inline">Create Event</span></router-link>
-      </div></div></div>
-    </div>
-    <div class="flex justify-between gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Total Registered Users Card -->
-      <div class="bg-white border border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300   hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl ">
-        <h2 class="text-md md:text-xl font-semibold mb-2 text-[#1E6091]">Total Users</h2>
-        <div class="text-4xl font-bold text-[#1E6091] mb-1">{{ totalRegisteredUsers }}</div>
-      </div>
+                <span class="hidden md:inline">QR Scanner</span>
+              </button>
 
-      <!-- Total Events Card -->
-      <div class="bg-white border  border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300  transform hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl">
-        <h2 class=" text-md md:text-xl font-semibold mb-2 text-[#1E6091]">Total Events</h2>
-        <div class="text-4xl font-bold text-[#1E6091] mb-1">{{ total }}</div>
-      </div>
-    </div>
+              <router-link
+                :to="{ name: 'edit-profile' }"
+                class="bg-white p-2 rounded-md flex items-center gap-2 hover:bg-[#1A4C7A] hover:text-white transition"
+              >
+                <Icon icon="material-symbols:edit-square-outline" width="24" height="24" />
 
-        <!--search-->
-     <section class="px-4 md:px-16 py-8">
-      <!-- Search Bar -->
-      <div class="mb-2 max-w-xl mx-auto flex gap-4">
-        <input
-          v-model="searchQuery"
-          @keyup.enter="fetchAllEvents"
-          type="text"
-          placeholder="Search for event title or description..."
-          class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1E5A8A]"
-          id="search"
-        />
-        <button
-          @click="fetchAllEvents"
-          class="bg-[#1E5A8A] text-white px-6 py-3 rounded-xl hover:bg-[#16456b]"
+                <span class="hidden md:inline">Edit Profile</span></router-link
+              >
+
+              <router-link
+                :to="{ name: 'create-event' }"
+                class="hover:bg-[#153958] text-white p-2 rounded-md flex items-center gap-2 bg-[#1A4C7A] hover:text-white transition"
+              >
+                <Icon icon="mdi:file-plus-outline" width="24" height="24" />
+
+                <span class="hidden md:inline">Create Event</span></router-link
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Total Registered Users Card -->
+        <div
+          class="bg-white border border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300 hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl"
         >
-          Search
-        </button>
+          <h2 class="text-md md:text-xl font-semibold mb-2 text-[#1E6091]">Total Users</h2>
+          <div class="text-4xl font-bold text-[#1E6091] mb-1">{{ totalRegisteredUsers }}</div>
+        </div>
+
+        <!-- Total Events Card -->
+        <div
+          class="bg-white border border-[#E0E6ED] rounded-2xl shadow-sm hover:shadow-md transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer w p-6 flex flex-col items-center w-full max-w-md md:max-w-xl"
+        >
+          <h2 class="text-md md:text-xl font-semibold mb-2 text-[#1E6091]">Total Events</h2>
+          <div class="text-4xl font-bold text-[#1E6091] mb-1">{{ total }}</div>
+        </div>
       </div>
-    </section>
 
-    <!-- Events Section -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h2 class="text-xl font-semibold mb-6">My Events</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        
-        <!-- Event Card -->
-        <div v-for="event in events" :key="event.id" class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition transform hover:-translate-y-1 ">
-          <!-- Event Image -->
-          <img
-            :src=event.image
-            alt="Sample Event"
-            class="w-full h-44 object-cover rounded-t-xl"
+      <!--search-->
+      <section class="px-4 md:px-16 py-8">
+        <!-- Search Bar -->
+        <div class="mb-2 max-w-xl mx-auto flex gap-4">
+          <input
+            v-model="searchQuery"
+            @keyup.enter="fetchAllEvents"
+            type="text"
+            placeholder="Search for event title or description..."
+            class="w-full p-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1E5A8A]"
+            id="search"
           />
+          <button
+            @click="fetchAllEvents"
+            class="bg-[#1E5A8A] text-white px-6 py-3 rounded-xl hover:bg-[#16456b]"
+          >
+            Search
+          </button>
+        </div>
+      </section>
 
-          <!-- Event Content -->
-          <div class="p-5 space-y-3">
-            <h2 class="text-lg font-semibold">{{ event.name }}</h2>
-            <p class="text-sm text-gray-600 mt-2 h-20">
-              {{ event.description}}
-            </p>
+      <!-- Events Section -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 class="text-xl font-semibold mb-6">My Events</h2>
 
-            <!-- Date & Location -->
-            <p class="mt-4 text-sm text-gray-500 flex items-center gap-1"><Icon icon="material-symbols:calendar-clock-rounded" width="24" height="24" class="text-blue-400" /> {{ event.date }} at {{ event.time }}</p>
-            <p class="mt-2 text-sm text-gray-500 flex items-center gap-1 "><Icon icon="material-symbols:location-on" width="24" height="24" class="text-red-400" /> {{ event.location }}</p>
- 
-            <!-- Capacity & Organizer -->
-            <div class="flex justify-between mt-3">
-                          <p class="text-sm text-gray-600 flex items-center gap-1">
-                  <Icon icon="mdi:account-group-outline" width="20" height="20 " class="text-blue-400" />Available Slots:
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+          <!-- Event Card -->
+          <div
+            v-for="event in events"
+            :key="event.id"
+            class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition transform hover:-translate-y-1"
+          >
+            <!-- Event Image -->
+            <img
+              :src="event.image"
+              alt="Sample Event"
+              class="w-full h-44 object-cover rounded-t-xl"
+            />
+
+            <!-- Event Content -->
+            <div class="p-5 space-y-3">
+              <h2 class="text-lg font-semibold">{{ event.name }}</h2>
+              <p class="text-sm text-gray-600 mt-2 h-25">
+                {{ event.description }}
+              </p>
+
+              <!-- Date & Location -->
+              <p class="mt-4 text-sm text-gray-500 flex items-center gap-1">
+                <Icon
+                  icon="material-symbols:calendar-clock-rounded"
+                  width="24"
+                  height="24"
+                  class="text-blue-400"
+                />
+                {{ event.date }} at {{ event.time }}
+              </p>
+              <p class="mt-2 text-sm text-gray-500 flex items-center gap-1">
+                <Icon
+                  icon="material-symbols:location-on"
+                  width="24"
+                  height="24"
+                  class="text-red-400"
+                />
+                {{ event.location }}
+              </p>
+
+              <!-- Capacity & Organizer -->
+              <div class="flex justify-between mt-4">
+                <p class="text-sm text-gray-600 flex items-center gap-1">
+                  <Icon
+                    icon="mdi:account-group-outline"
+                    width="20"
+                    height="20 "
+                    class="text-blue-400"
+                  />Available Slots:
                   {{ event.capacity }}
                 </p>
-              <p class="text-sm text-gray-600">by <span class="capitalize">{{ event.organizer }}</span></p>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex justify-between items-center mt-4">
-              <button  @click="openEdit(event)"
-                class=" w-[220px] flex justify-center items-center gap-1 px-3 py-1 rounded-md border border-gray-300 bg-white hover:bg-gray-200 text-[#1A4C7A] transition text-sm ">
-                <Icon icon="material-symbols:edit-square-outline" width="20" height="20" />
-                <span>Edit</span>
-            </button>
-
-              <button @click="toggleConfirm(event.id)"
-                class="flex justify-center items-center gap-1 px-3 py-1 rounded-md border border-gray-300 bg-white hover:bg-red-600 hover:text-white text-red-600 transition text-sm w-[100px]">
-                <Icon icon="mdi:delete-forever-outline" width="24" height="24" />
-                <span>Delete</span>
-            </button>
-
-            </div>
-              <div v-if="show[event.id]" class="mt-4 p-4 border border-red-300 bg-red-50 rounded-md text-center">
-                <p class="text-red-600 text-sm mt-2">Are you sure?</p>
-                <div class="flex gap-2 mt-1 items-center justify-center">
-                  <button @click="deleteEvent(event.id)" class="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm">Yes</button>
-                  <button @click="toggleConfirm(event.id)" class="px-3 py-1 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 text-sm">No</button>
-                </div>
-              
+                <p class="text-sm text-gray-600">
+                  by <span class="capitalize">{{ event.organizer }}</span>
+                </p>
               </div>
 
-            <!-- View Registered Users -->
-            <button @click="openRegistration(event)"
-              class="mt-4 flex items-center gap-2 px-3 py-2 rounded-md bg-[#1A4C7A] hover:bg-[#2370AC] transition text-white text-sm w-full justify-center">
-              <span>View Registered Users</span>
-          </button>
-          </div>
+              <!-- Action Buttons -->
+              <div class="flex justify-between items-center mt-4">
+                <button
+                  @click="openEdit(event)"
+                  class="w-[220px] flex justify-center items-center gap-1 px-3 py-1 rounded-md border border-gray-300 bg-white hover:bg-gray-200 text-[#1A4C7A] transition text-sm"
+                >
+                  <Icon icon="material-symbols:edit-square-outline" width="20" height="20" />
+                  <span>Edit</span>
+                </button>
 
-        </div>
-        <EditEvent 
-            v-if="showEditModal" 
-            :event="selectedEvent" 
+                <button
+                  @click="toggleConfirm(event.id)"
+                  class="flex justify-center items-center gap-1 px-3 py-1 rounded-md border border-gray-300 bg-white hover:bg-red-600 hover:text-white text-red-600 transition text-sm w-[100px]"
+                >
+                  <Icon icon="mdi:delete-forever-outline" width="24" height="24" />
+                  <span>Delete</span>
+                </button>
+              </div>
+              <div
+                v-if="show[event.id]"
+                class="mt-4 p-4 border border-red-300 bg-red-50 rounded-md text-center"
+              >
+                <p class="text-red-600 text-sm mt-2">Are you sure?</p>
+                <div class="flex gap-2 mt-1 items-center justify-center">
+                  <button
+                    @click="deleteEvent(event.id)"
+                    :disabled="deleting"
+                    class="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm"
+                  >
+                    <span v-if="!deleting">Yes</span>
+                    <span v-else class="flex items-center gap-2">
+                      <svg
+                        class="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        ></path>
+                      </svg>
+                    </span>
+            
+                  </button>
+                          <button
+                      @click="toggleConfirm(event.id)"
+                      :disabled="cancelling"
+                      class="px-3 py-1 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 text-sm cursor-not-allowed"
+                    >
+
+                    <span v-if="!cancelling">No</span>
+                    <span v-else class="flex items-center gap-2">
+                      <svg
+                        class="animate-spin h-5 w-5 text-white"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          class="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          stroke-width="4"
+                        ></circle>
+                        <path
+                          class="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                        ></path>
+                      </svg>
+                      No
+                    </span>
+                  </button>
+
+                </div>
+              </div>
+
+              <!-- View Registered Users -->
+              <button
+                @click="openRegistration(event)"
+                class="mt-4 flex items-center gap-2 px-3 py-2 rounded-md bg-[#1A4C7A] hover:bg-[#2370AC] transition text-white text-sm w-full justify-center"
+              >
+                <span>View Registered Users</span>
+              </button>
+            </div>
+          </div>
+          <EditEvent
+            v-if="showEditModal"
+            :event="selectedEvent"
             @cancel="showEditModal = false"
             @update="handleUpdate"
           />
-        <ViewRegisteration
-            v-if="showRegisteredUsers" 
-            :eventId="selectedEvent" 
+          <ViewRegisteration
+            v-if="showRegisteredUsers"
+            :eventId="selectedEvent"
             @cancel="showRegisteredUsers = false"
-
-          /> 
-                  <QRCode
-            v-if="showQRCode" 
-            @cancel="showQRCode = false"
-             @success="fetchAllEvents"
-
-          /> 
-        
-        
-
-
-
+          />
+          <QRCode v-if="showQRCode" @cancel="showQRCode = false" @success="fetchAllEvents" />
+        </div>
       </div>
 
-    </div>
+      <div class="mt-8 mb-8 flex justify-center gap-4" v-if="!(events.length === 0)">
+        <button
+          @click="prevPage"
+          :disabled="offset === 0"
+          class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Previous
+        </button>
+        <button
+          @click="nextPage"
+          :disabled="offset + limit >= events.length"
+          class="px-4 py-2 bg-[#1E5A8A] text-white rounded hover:bg-[#16456b] disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Next
+        </button>
+      </div>
 
-            <div class="mt-8  mb-8 flex justify-center gap-4" v-if="!(events.length === 0)">
-      <button
-        @click="prevPage"
-        :disabled="offset === 0"
-        class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        Previous
-      </button>
-      <button
-        @click="nextPage"
-        :disabled="offset + limit >= events.length"
-        class="px-4 py-2 bg-[#1E5A8A] text-white rounded hover:bg-[#16456b] disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        Next
-      </button>
+      <!-- No Results -->
+      <div v-if="events.length === 0" class="text-center mt-12 mb-4 text-gray-500">
+        No events found.
+      </div>
     </div>
-
-    <!-- No Results -->
-    <div v-if="events.length === 0" class="text-center mt-12 mb-4 text-gray-500">
-      No events found.
-    </div>
-  </div>
-  <Footer />
+    <Footer />
   </div>
 </template>
 
-<script >
+<script>
 import NavBar from '../../components/NavBar.vue';
 import Footer from '../../components/Footer.vue';
 import EditEvent from '../../components/EditEvent.vue';
 import { useAuthStore } from '../../stores/auth.js';
 import { storeToRefs } from 'pinia';
-import api from '../../axios'; 
+import api from '../../axios';
 import ViewRegisteration from '../../components/ViewRegisteration.vue';
 import QRCode from '../../components/QRCode.vue';
 import { Icon } from '@iconify/vue';
@@ -199,12 +299,12 @@ export default {
     EditEvent,
     ViewRegisteration,
     QRCode,
-    Icon
+    Icon,
   },
   data() {
     return {
       searchQuery: '',
-      events:[],
+      events: [],
       limit: 3,
       offset: 0,
       total: 0,
@@ -214,122 +314,104 @@ export default {
       showRegisteredUsers: false,
       showEditModal: false,
       selectedEvent: null,
-      showQRCode:false,
+      showQRCode: false,
       totalRegisteredUsers: 0,
+      deleting: false,
+      cancelling: false,
     };
   },
 
-    async mounted()  {
+  async mounted() {
     const authStore = useAuthStore();
     const { isAuthenticated, user } = storeToRefs(authStore);
 
     if (!isAuthenticated.value) {
       this.$router.push({ name: 'login' });
-
-    }
-    else{
+    } else {
       this.user = user.value;
       await this.fetchAllEvents();
     }
   },
   methods: {
-    
     async fetchAllEvents() {
-      try
-      {
-          const eventres = await api.get('/events/organizer-event', {
+      try {
+        const eventres = await api.get('/events/organizer-event', {
           params: {
             search: this.searchQuery,
             limit: this.limit,
-            offset: this.offset
-          }
+            offset: this.offset,
+          },
         });
-        this.events = eventres.data.events.map(event => ({
+        this.events = eventres.data.events.map((event) => ({
           ...event,
-          image: event.image
+          image: event.image,
         }));
-        
-        
+
         this.total = eventres.data.total;
-        const response= await api.get('/registration/view-all-student-registrations'); //fetch total registered users
+
+        const response = await api.get('/registration/view-all-student-registrations'); //fetch total registered users
         this.totalRegisteredUsers = response.data.total;
-        
-      
-      } 
-      catch (error) {
-  
-        this.events = [] 
+      } catch (error) {
+        this.events = [];
       }
-
     },
-     
 
-    
-      openEdit(event) {
-    this.selectedEvent = event
-    this.showEditModal = true
-  },
-  openRegistration(event){
-    this.selectedEvent =event
-    this.showRegisteredUsers =true
-
-  },
+    openEdit(event) {
+      this.selectedEvent = event;
+      this.showEditModal = true;
+    },
+    openRegistration(event) {
+      this.selectedEvent = event;
+      this.showRegisteredUsers = true;
+    },
     toggleConfirm(eventId) {
+      this.cancelling = false;
       this.show[eventId] = !this.show[eventId];
     },
-    scanQR(){
+    scanQR() {
       this.showQRCode = true;
     },
 
     async deleteEvent(eventId) {
       try {
+        this.deleting = true;
         await api.delete(`/events/delete-event/${eventId}`);
-        this.events = this.events.filter(event => event.id !== eventId);
+        this.events = this.events.filter((event) => event.id !== eventId);
         this.total -= 1;
         delete this.show[eventId];
         setTimeout(() => {
-        this.fetchAllEvents();
-      }, 300);
-
+          this.fetchAllEvents();
+        }, 300);
       } catch (error) {
         console.error('Error deleting event:', error);
+      } finally {
+        this.deleting = false;
       }
     },
 
-          nextPage(){
-    if(this.limit + this.offset < this.total){
-      this.offset += this.limit
-      this.fetchAllEvents()
-    }
-
+    nextPage() {
+      if (this.limit + this.offset < this.total) {
+        this.offset += this.limit;
+        this.fetchAllEvents();
+      }
+    },
+    prevPage() {
+      if (this.offset > 0) {
+        this.offset -= this.limit;
+        this.fetchAllEvents();
+      }
+    },
+    async handleUpdate(updatedEvent) {
+      const index = this.events.findIndex((e) => e.id === updatedEvent.id);
+      if (index !== -1) {
+        this.events[index] = {
+          ...updatedEvent,
+          image: updatedEvent.image ? updatedEvent.image : this.events[index].image,
+        };
+      }
+      this.showEditModal = false;
+      await this.fetchAllEvents();
+    },
   },
-  prevPage(){
-    if(this.offset > 0){
-      this.offset -= this.limit
-      this.fetchAllEvents()
-    }
-
-  },  
-  async handleUpdate(updatedEvent) {
-
-    const index = this.events.findIndex(e => e.id === updatedEvent.id);
-    if (index !== -1) {
-      this.events[index] = {
-        ...updatedEvent,
-      image: updatedEvent.image
-        ? updatedEvent.image
-        : this.events[index].image
-      
-      
-    };
-  }
-    this.showEditModal= false;
-    await this.fetchAllEvents();
-    
-  
-  },
-}
- 
 };
-
 </script>

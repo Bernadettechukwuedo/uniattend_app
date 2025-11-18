@@ -121,34 +121,6 @@ async def refresh_token(request: TokenRefreshRequest, db: Session = Depends(get_
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-@router.post("/request-password-reset")
-async def request_password_reset(user: EmailRequest, db: Session = Depends(get_db)):
-    exisitng_user = db.query(User).filter_by(email=user.email).first()
-    if not exisitng_user:
-        raise HTTPException(status_code=404, detail="Email not found")
-    return {"message": "Email verified. Proceed to reset password."}
-
-
-@router.post("/reset-password")
-async def reset_password(user: PasswordResetRequest, db: Session = Depends(get_db)):
-    existing_user = db.query(User).filter_by(email=user.email).first()
-    if not existing_user:
-        raise HTTPException(status_code=404, detail="Email not found")
-    if not user.new_password:
-        raise HTTPException(status_code=400, detail="New password is required")
-    if verify_password(user.new_password, existing_user.password):
-        raise HTTPException(
-            status_code=400,
-            detail="New password cannot be the same as the old password",
-        )
-    existing_user.password = hashed_password(user.new_password)
-    db.add(existing_user)
-    db.commit()
-    db.refresh(existing_user)
-    return {"message": "Password updated successfully"}
-
-
 # only admins has access to get all users
 @router.get(
     "/get-users", response_model=list[UserOut], summary="Get all users (admin only)"
@@ -282,3 +254,31 @@ async def get_user_by_id(user_id: int, db: Session = Depends(get_db), current_us
     if not user:
         raise HTTPException(status_code=404, detail="User not found.")
     return user
+
+
+#next: implement password reset and email verification routes
+@router.post("/request-password-reset")
+async def request_password_reset(user: EmailRequest, db: Session = Depends(get_db)):
+    exisitng_user = db.query(User).filter_by(email=user.email).first()
+    if not exisitng_user:
+        raise HTTPException(status_code=404, detail="Email not found")
+    return {"message": "Email verified. Proceed to reset password."}
+
+
+@router.post("/reset-password")
+async def reset_password(user: PasswordResetRequest, db: Session = Depends(get_db)):
+    existing_user = db.query(User).filter_by(email=user.email).first()
+    if not existing_user:
+        raise HTTPException(status_code=404, detail="Email not found")
+    if not user.new_password:
+        raise HTTPException(status_code=400, detail="New password is required")
+    if verify_password(user.new_password, existing_user.password):
+        raise HTTPException(
+            status_code=400,
+            detail="New password cannot be the same as the old password",
+        )
+    existing_user.password = hashed_password(user.new_password)
+    db.add(existing_user)
+    db.commit()
+    db.refresh(existing_user)
+    return {"message": "Password updated successfully"}
