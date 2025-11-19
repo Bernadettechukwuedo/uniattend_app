@@ -73,11 +73,11 @@
               <h2 class="text-lg font-semibold">
                 {{ event.name }}
               </h2>
-              <p class="text-sm text-gray-600 h-25">
+              <p class="text-sm text-gray-600 h-25 overflow-hidden text-ellipsis">
                 {{ event.description }}
               </p>
 
-              <p class="mt-6 text-sm text-gray-500 flex items-center gap-1">
+              <p class="mt-4 text-sm text-gray-500 flex items-center gap-1">
                 <Icon
                   icon="material-symbols:calendar-clock-rounded"
                   width="24"
