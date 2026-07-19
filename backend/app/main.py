@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
 app = FastAPI()
 add_cors(app)
-Base.metadata.create_all(bind=engine)
+#Base.metadata.create_all(bind=engine)
 
 security= HTTPBearer()
 app.include_router(auth_router)
