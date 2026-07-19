@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+import traceback
 from app.database import get_db
 from app.schemas import (
     UserCreate,
@@ -95,7 +96,8 @@ async def login_user(user: UserLogin, db: Session = Depends(get_db)):
             },
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        traceback.print_exc() 
+        raise HTTPException(status_code=500, detail="Internal Server Error - Check logs for details")
 
 
 @router.post("/refresh-token")
