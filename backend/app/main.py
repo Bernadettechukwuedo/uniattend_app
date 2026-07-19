@@ -32,22 +32,13 @@ app.include_router(auth_router)
 app.include_router(event_router)
 app.include_router(registration_router)
 
+@app.get("/routes")
+def get_routes():
+    return [{"path": route.path, "name": route.name} for route in app.routes]
+
 # Mount static files
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 if __name__ == "__main__":
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
 
-app = FastAPI()
-add_cors(app)
-#Base.metadata.create_all(bind=engine)
-
-security= HTTPBearer()
-app.include_router(auth_router)
-app.include_router(event_router)
-app.include_router(registration_router)
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True, debug=True)
