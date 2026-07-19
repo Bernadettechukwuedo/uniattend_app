@@ -14,7 +14,7 @@ from app.middleware import add_cors
 async def lifespan(app: FastAPI):
     # This runs when the app starts: safely create tables
     try:
-        Base.metadata.create_all(bind=engine)
+        #Base.metadata.create_all(bind=engine)
         print("Database tables created successfully.")
     except Exception as e:
         print(f"Error creating database tables: {e}")
